@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev">
+	<select id="selectAttCurrval" resultType="Integer">
+	    SELECT attseq.CURRVAL FROM DUAL
+    </select>
+	<select id="selectByEmpNum" parameterType="Integer" resultType="com.kosa.hrsystem.dto.AttendanceDTO">
+		SELECT *
+		FROM ATTENDANCE
+		WHERE EMP_NUM = #{emp_num}
+		ORDER BY go_work DESC
+			FETCH FIRST 1 ROW ONLY
+	</select>
+    <insert id="insertAttendance" parameterType="com.kosa.hrsystem.dto.AttendanceDTO">
+		INSERT INTO ATTENDANCE(ATT_NUM,EMP_NUM,ATT_STATUS,GO_WORK) VALUES (ATTSEQ.NEXTVAL,#{emp_num},#{att_status},SYSDATE)
+	</insert>
+
+	<update id="updateAttendance" parameterType="com.kosa.hrsystem.dto.AttendanceDTO">
+		UPDATE ATTENDANCE
+		SET ATT_STATUS=0, LEAVE_WORK=SYSDATE
+		WHERE EMP_NUM=#{emp_num}
+		  AND ATT_NUM=(SELECT ATT_NUM FROM ATTENDANCE WHERE EMP_NUM=#{emp_num} ORDER BY GO_WORK DESC FETCH FIRST 1 ROW ONLY)
+	</update>
+	<!-- 스케줄 출퇴근 조회 -->
+	<select id="selectAtt" parameterType="Integer" resultType="com.kosa.hrsystem.vo.UserScheduleVO">
+	SELECT 
+    	a.GO_WORK,
+    	a.leave_work
+	FROM ATTENDANCE a
+	INNER JOIN emp e ON a.emp_num = e.emp_num
+	INNER JOIN request_history rh ON a.att_num = rh.request_num 
+	WHERE e.EMP_NUM = #{emp_num} AND rh.state != 0
+	</select>
+	
+</mapper>

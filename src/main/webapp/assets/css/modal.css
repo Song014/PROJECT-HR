@@ -1,0 +1,180 @@
+input[id*="popup"] {
+	display: none;
+}
+
+input[id*="popup"]+label {
+	display: inline-table;
+	background: hsl(256, 88%, 16%);
+	color: white;
+	text-align: center;
+	height: 30px;
+	padding: 2px 20px;
+}
+
+input[id*="popup"]+label+div {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+}
+
+input[id*="popup"]+label+div>div {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: auto;
+	padding: 15px;
+	background: #fff;
+	z-index: 2;
+}
+
+input[id*="popup"]+label+div>div>label {
+	position: absolute;
+	top: 0%;
+	right: 0%;
+	transform: translate(-40%, 30%);
+	padding: 7px 8px;
+	background: #fff;
+	border-radius: 0;
+	z-index: 1;
+	color: rgb(4, 4, 80);
+	font-size: 20px;
+}
+
+input[id*="popup"]+label+div>div>h1 {
+	margin: 15px;
+}
+
+input[id*="popup"]+label+div>label {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .7);
+	z-index: 1;
+}
+
+input[id*="popup"]+label+div {
+	display: none;
+}
+
+input[id*="popup"]:checked+label+div {
+	display: block;
+}
+
+.labelBtn {
+	border: 1.5px solid hsl(256, 88%, 16%);
+	border-radius: 8px;
+	letter-spacing: 2px;
+	transition: all 0.4s;
+	cursor: pointer;
+}
+
+.labelBtn:focus{
+    outline: none;
+}
+
+.labelBtn:hover{
+    background-color: white;
+    color: black;
+}
+
+.modal-header{
+	height:50px;
+	border: 1px solid black;
+}
+
+.modal-table {
+	padding: 10px;
+}
+
+.modal-table tbody{
+	padding: 10px;
+}
+
+div.bottom-btn {
+	display: flex;
+	justify-content: flex-end;
+	margin: 10px 0 0;
+}
+
+.searchtype{
+	height: 30px;
+}
+
+.search{
+	height: 30px;
+} 
+
+.plusinfo{
+    float:right;
+}
+
+select.searchtype.searchs {
+	height: 30px;
+}
+
+div.right-btn {
+	display: inherit;
+	justify-content: space-around;
+	width: 250px;
+	cursor: pointer;
+}
+
+.custom-btn {
+  height: 40px;
+  padding: 10px;
+  border: 2px solid #000;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.btn-10 {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.btn-10:after {
+  position: absolute;
+  content: " ";
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+  -webkit-transform: scale(.1);
+  transform: scale(.1);
+}
+.btn-10:hover {
+  color: #fff;
+}
+.btn-10:hover:after {
+  background: rgb(4, 4, 80);
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+dialog{
+	width: 40%;
+	height: 55%;
+	top:20%;
+	left: 35%	
+}
+
+/* #tab-2 {
+	display: flex;
+} */
+
+textarea {
+	width: 100%;
+    resize: none !important;
+}

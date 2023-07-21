@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev">
+	<!-- 이미지 업로드 -->
+	<insert id="save" parameterType="com.kosa.hrsystem.dto.IfileDTO">
+		INSERT INTO IFILE(emp_num,ofile,sfile)
+		VALUES(#{emp_num}, #{ofile} ,#{sfile})
+	</insert>
+	<!-- 프로필 출력 -->
+	<select id="selectProfile" parameterType="Integer" resultType="com.kosa.hrsystem.dto.IfileDTO">
+		select * from IFILE where emp_num = #{emp_num}
+	</select>
+	<delete id="deleteProfile" parameterType="Integer">
+		delete from IFILE where emp_num = #{emp_num}
+	</delete>
+	<select id="selectOneUser" parameterType="Integer" resultType="com.kosa.hrsystem.vo.MyPageVO">
+		select
+			emp_num, emp_name, direct_num,
+			d.code_value dept, r.code_value rank, permission_type, annual_num,
+			hire_date, departure_date, email,
+			phone, post_code, address, detail_address
+		from EMP e join code_table d on e.dept = d.code_name
+				   join code_table r on e.rank = r.code_name
+		where emp_num = #{emp_num}
+	</select>
+	<select id="searchPwd" parameterType="HashMap" resultType="String">
+    	select pwd from EMP where email = #{email, jdbcType=VARCHAR} and regist_num = #{regist_num, jdbcType=VARCHAR}
+    </select>
+    <select id="searchId" parameterType="HashMap" resultType="String">
+    	select email from EMP where emp_name = #{emp_name, jdbcType=VARCHAR} and regist_num = #{regist_num, jdbcType=VARCHAR}
+    </select>
+    <select id="checkEmail" parameterType="String" resultType="Integer">
+    	select count(*) from EMP where email = #{email}
+    </select>
+    <select id="selectByEmail" parameterType="HashMap" resultType="com.kosa.hrsystem.dto.EmpDTO">
+		select email, emp_num, emp_name, permission_type from EMP where email=#{email} AND pwd = #{pwd}
+	</select>	
+	<select id="selectAllEmp"  resultType="com.kosa.hrsystem.vo.EmpVO">
+		SELECT e.emp_num, e.emp_name, e.permission_type ,
+			d.code_name dept_code, d.code_value dept,r.code_name rank_code ,
+			r.code_value rank, w.work_name, e.email, e.hire_date, e.departure_date, 
+			e.reason,e.direct_num,e.phone,e.regist_num,e.annual_num, e.post_code,
+			e.address,e.detail_address, e.remarks, e.work_num 
+			FROM EMP 
+			e inner join code_table d on d.code_name = e.dept  
+			inner join code_table r on r.code_name = e.rank 
+			inner join work w on w.work_num = e.work_num
+			order by emp_num
+	</select>
+	<select id="searchEmp"  parameterType="HashMap" resultType="com.kosa.hrsystem.vo.EmpVO">
+		SELECT e.emp_num, e.emp_name, e.permission_type ,
+		d.code_name dept_code, d.code_value dept,r.code_name rank_code ,
+		r.code_value rank, w.work_name, e.email, e.hire_date, e.departure_date,
+		e.reason,e.direct_num,e.phone,e.regist_num,e.annual_num, e.post_code,
+		e.address,e.detail_address, e.remarks, e.work_num
+		FROM EMP
+		e inner join code_table d on d.code_name = e.dept
+		inner join code_table r on r.code_name = e.rank
+		inner join work w on w.work_num = e.work_num
+
+		where 1=1
+		<choose>
+			<when test = "searchType == 'empNum'.toString()">
+				AND e.emp_num like '%' || #{searchWord} || '%'
+			</when>
+			<when test = "searchType == 'empName'.toString()">
+				AND emp_name like '%' || #{searchWord} || '%'
+			</when>
+			<when test = "searchType == 'hireDate'.toString()">
+				AND to_char(e.hire_date,'yyyyMM') = #{searchWord}
+			</when>
+			<when test = "searchType == 'dept'.toString()">
+				AND d.code_value like '%' || #{searchWord} || '%'
+			</when>
+			<when test = "searchType == 'rank'.toString()">
+				AND r.code_value like '%' || #{searchWord} || '%'
+			</when>
+			<when test = "searchType == 'workType'.toString()">
+				AND w.work_name like '%' || #{searchWord} || '%'
+			</when>
+			<when test = "searchType == 'remarks'.toString()">
+				AND e.remarks like '%' || #{searchWord} || '%'
+			</when>
+		</choose>
+	</select>
+	<insert id="insertEmp" parameterType="com.kosa.hrsystem.dto.EmpDTO" >
+		insert into EMP(emp_num,emp_name,email,pwd,hire_date,departure_date,reason,direct_num,phone,regist_num,annual_num,post_code,address,detail_address,permission_type,dept,rank,work_num) values(
+			#{emp_num},#{emp_name},#{email},#{pwd},#{hire_date},#{departure_date, jdbcType=DATE},#{reason},#{direct_num},#{phone},#{regist_num},12.0,#{post_code},#{address},#{detail_address},#{permission_type},#{dept},#{rank},#{work_num})
+	</insert>
+	<update id="updateEmp" parameterType="com.kosa.hrsystem.dto.EmpDTO">
+		update EMP set emp_name = #{emp_name},
+					 dept = #{dept},
+					 rank = #{rank},
+					 phone = #{phone},
+					 permission_type = #{permission_type},
+					 direct_num = #{direct_num},
+					 post_code = #{post_code},
+					 address = #{address},
+					 detail_address = #{detail_address},
+					 reason = #{reason, jdbcType=VARCHAR},
+					 remarks = #{remarks, jdbcType=VARCHAR},
+					 hire_date = #{hire_date},
+					 departure_date = #{departure_date, jdbcType=DATE},
+					 work_num = #{work_num}
+					 where emp_num = #{emp_num}	
+	</update>
+	<update id="updatePwd" parameterType="HashMap">
+		update EMP set pwd = #{pwd} where email = #{email}
+	</update>
+	<update id="updateOneUser" parameterType="com.kosa.hrsystem.dto.EmpDTO">
+		update EMP set emp_name = #{emp_name},
+					 phone = #{phone},
+					 post_code = #{post_code},
+					 address = #{address},
+					 detail_address = #{detail_address}
+					 where emp_num = #{emp_num}
+	</update>
+	<delete id="deleteEmp" parameterType="Integer">
+		delete from EMP where emp_num = #{emp_num}
+	</delete>
+</mapper>
