@@ -208,7 +208,7 @@
             </tr>
             <tr>
                 <td>직책수당</td>
-                <td>` + $directBenefits + `</td>
+                <td>` + ($directBenefits==1?0:$directBenefits) + `</td>
                 <td>장기요양보험</td>
                 <td>` + $lncrInsurance + `</td>
 
