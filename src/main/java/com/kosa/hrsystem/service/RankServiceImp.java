@@ -1,15 +1,12 @@
 package com.kosa.hrsystem.service;
 
-import java.util.List;
+import com.kosa.hrsystem.action.ActionForward;
+import com.kosa.hrsystem.dao.CodeTableDAO;
+import com.kosa.hrsystem.dto.CodeTableDTO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.kosa.hrsystem.action.Action;
-import com.kosa.hrsystem.action.ActionForward;
-import com.kosa.hrsystem.dao.CodeTableDAO;
-import com.kosa.hrsystem.dao.RankDAO;
-import com.kosa.hrsystem.dto.CodeTableDTO;
+import java.util.List;
 
 public class RankServiceImp implements CodeTableService {
 	@Override

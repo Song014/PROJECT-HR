@@ -10,7 +10,7 @@ import java.util.List;
 public class CodeTableDAO {
     private SqlSessionFactory factory = SqlMapConfig.getSqlSession();
 
-    // 부서 리스트 출력
+    // 부서,직급 리스트 출력
     public List<CodeTableDTO> selectAllByParent(String codeName) {
         SqlSession sqlSession = factory.openSession(true);
         List<CodeTableDTO> list = null;
@@ -19,7 +19,7 @@ public class CodeTableDAO {
         return list;
     }
 
-    // 부서 추가하기
+    // 부서,직급 추가하기
     public int insertCodeTable(CodeTableDTO dto) throws Exception {
         SqlSession sqlSession = factory.openSession(true);
         int result = sqlSession.insert("insertCodeTable", dto);
@@ -28,7 +28,7 @@ public class CodeTableDAO {
         return result;
     }
 
-    // 부서 수정하기
+    // 부서,직급 수정하기
     public int updateCodeTable(CodeTableDTO dto) throws Exception {
         SqlSession sqlSession = factory.openSession(true);
         int result = sqlSession.update("updateCodeTable", dto);
@@ -36,7 +36,7 @@ public class CodeTableDAO {
         return result;
     }
 
-    // 부서 삭제하기
+    // 부서,직급 삭제하기
     public int deleteCodeTable(String codeName) throws Exception {
         SqlSession sqlSession = factory.openSession(true);
         int result = sqlSession.delete("deleteCodeTable", codeName);
