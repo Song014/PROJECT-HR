@@ -121,4 +121,10 @@
 	<delete id="deleteEmp" parameterType="Integer">
 		delete from EMP where emp_num = #{emp_num}
 	</delete>
+	<select id="checkPwd" parameterType="Integer" resultType="String">
+		select pwd from EMP where emp_num = #{emp_num}
+	</select>
+	<update id="updateInfoPwd" parameterType="HashMap">
+		update EMP set pwd = #{newPwd} where emp_num = #{emp_num}
+	</update>
 </mapper>

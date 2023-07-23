@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -20,6 +21,7 @@ import com.kosa.hrsystem.dto.CareerDTO;
 import com.kosa.hrsystem.dto.CertificateDTO;
 import com.kosa.hrsystem.dto.EmpDTO;
 import com.kosa.hrsystem.dto.IfileDTO;
+import com.kosa.hrsystem.utils.Encrypt;
 import com.kosa.hrsystem.vo.MyPageVO;
 import com.oreilly.servlet.MultipartRequest;
 
@@ -30,7 +32,6 @@ public class UserServiceImp implements UserService {
 		HttpSession session = request.getSession();
 		
 		EmpDTO dto = (EmpDTO) session.getAttribute("login"); 
-		
 		int empNum = dto.getEmp_num();
 		System.out.println(empNum);
 		
@@ -80,6 +81,35 @@ public class UserServiceImp implements UserService {
 		
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(true);
+		forward.setPath("/myPage.do");
+		return forward;
+	}
+	
+	/* 비밀번호 변경 */
+	@Override
+	public ActionForward updatePwd(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		EmpDTO edto = (EmpDTO)session.getAttribute("login");
+		String oldPwd = request.getParameter("originPwd");
+		String newPwd = request.getParameter("newPwd");		
+		int empNum = edto.getEmp_num();
+		
+		EmpDAO edao = new EmpDAO();
+		String enOldPwd = Encrypt.getEncrypt(oldPwd);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("emp_num", empNum);
+		map.put("newPwd",Encrypt.getEncrypt(newPwd));
+		
+		// 1. 기존 pwd와 입력한 pwd가 일치하는 확인
+		// 2. 일치한다면 새로운 pwd로 update 
+		if(enOldPwd.equalsIgnoreCase(edao.checkPwd(empNum))) {
+			int result = edao.updateInfoPwd(map);
+			System.out.println("result : " + result);
+		}
+		
+		ActionForward forward = new ActionForward();
+		forward.setRedirect(false);
 		forward.setPath("/myPage.do");
 		return forward;
 	}
@@ -326,42 +356,5 @@ public class UserServiceImp implements UserService {
 		forward.setPath("/myPage.do");
 		return forward;
 	}
-	
-//	@Override
-//	public ActionForward UserProfileUpload(HttpServletRequest request, HttpServletResponse response) {
-//		HttpSession session = request.getSession();
-//		session.getAttribute("login");
-//		//저장할 파일경로 지정
-//        String absolutePath = new File("src/main/resources/static/images/").getAbsolutePath();
-//		ImageDTO dto = new ImageDTO();
-//		
-//		// 확장자 추출
-//        if (!image.isEmpty()) {
-//            String contentType = image.getContentType();
-//            String originalImageExtension;
-//            if (contentType.contains("image/jpeg")) {
-//                originalImageExtension = ".jpg";
-//            } else if (contentType.contains("image/png")) {
-//                originalImageExtension = ".png";
-//            } else if (contentType.contains("image/gif")) {
-//                    originalImageExtension = ".gif";
-//       		}
-//       	}
-//		
-//		
-//		
-//		dto.setOriginImageName(null);
-//		dto.setNewImageName(null);
-//		dto.setImagePath(null);
-//		EmpDAO dao = new EmpDAO();
-//		dao.uploadImage(dto);
-//		
-//		ActionForward forward = new ActionForward();
-//		forward.setRedirect(true);
-//		forward.setPath("/myPage.do");
-//		return forward;
-//	}
-
-	
 
 }

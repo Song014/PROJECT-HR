@@ -28,4 +28,6 @@ public interface UserService {
 
 	public ActionForward uploadImage(HttpServletRequest request, HttpServletResponse response);
 
+	public ActionForward updatePwd(HttpServletRequest request, HttpServletResponse response);
+
 }
