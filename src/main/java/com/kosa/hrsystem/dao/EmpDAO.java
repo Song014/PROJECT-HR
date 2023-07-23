@@ -45,6 +45,24 @@ public class EmpDAO {
     	return email;
 	}
     
+    // 패스워드 체크
+    public String checkPwd(int empNum) {
+    	SqlSession sqlSession = factory.openSession(true);
+    	
+    	String pwd = sqlSession.selectOne("checkPwd",empNum); 
+    	sqlSession.close();
+    	return pwd;
+	}
+    
+    // 패스워드 변경
+    public int updateInfoPwd(HashMap<String, Object> map) {
+    	SqlSession sqlSession = factory.openSession(true);
+    	
+    	int result = sqlSession.update("updateInfoPwd",map); 
+    	sqlSession.close();
+    	return result;
+	}
+    
     // 패스워드 찾기
     public String searchPwd(HashMap<String, String> map) {
     	SqlSession sqlSession = factory.openSession(true);

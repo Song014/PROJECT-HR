@@ -242,6 +242,8 @@ public class FrontController extends HttpServlet {
         /* 사용자 마이페이지 */
         else if (urlcommand.equals("/myPage.do")) {
             forward = userService.selectOneUser(request, response);
+        } else if (urlcommand.equals("/updatePwd.do")) {
+            forward = userService.updatePwd(request, response);
         } else if (urlcommand.equals("/myInfoUpdate.do")) {
             forward = userService.updateOneUser(request, response);
         } else if (urlcommand.equals("/certInsertok.do")) {

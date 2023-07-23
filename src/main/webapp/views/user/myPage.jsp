@@ -246,12 +246,38 @@ height: 600px;
  .rights:hover {
   background-color: rgb(4, 4, 80);
  }
+ 
+ .updatepwdbtn {
+ 	float: right;
+    margin-right: 5%;
+ 	width: 150px;
+ 	color: white;
+    background-color:  rgb(4, 4, 80);
+    height:   30px;
+    border-radius: 8px;
+    transition: all 0.4s;
+    border: 1.5px solid rgb(4, 4, 80);
+    font-size: 16px;
+ }
+ 
+.alert-success {
+	background-color: #D5EDDB;
+	border: 1px solid #D5EDDB;
+	color: #365E24;
+}
+
+.alert-danger {
+	background-color: #F8D8DA;
+	border: 1px solid #F8D8DA;
+	color: #8A6962;
+}
 </style> 
 
 <body>
   <%@include file="/views/include/header_user.jsp" %>
       <div id="myInfo">
          <h1 class="title">내 인사정보</h1><br>
+         <button class="updatepwdbtn" onclick='updateView("pwdmodal")'>비밀번호 변경</button><br>
          <hr class="main-hr">
          <table class="main-table-1">
             <tr>
@@ -283,7 +309,7 @@ height: 600px;
          </table>
       </div>
       
-      <!-- 탭 메뉴--><!-- 인사정보 개인정보 인사발령 경력·학력 포상·징계 인사평가 -->
+	<!-- 탭 메뉴--><!-- 인사정보 개인정보 인사발령 경력·학력 포상·징계 인사평가 -->
       <hr  class="main-hr">
       <div class="tabs">
            <a data-tab="tab-1">개인정보</a>
@@ -330,7 +356,65 @@ height: 600px;
        </div>
    </form>
    </dialog>
+	
+	<!--------------- pwdmodal ---------------->
+   <dialog id="pwdmodal">
+   <h2 class="diatitle">비밀번호 변경</h2>
+   <hr>
+   <form method="post" action="/updatePwd.do">
+      <table class="info-table table">
+         <tr class="info-tr1">
+            <th class="four">기존 비밀번호</th>
+            <td><input type="password" class="infoupdate" name="originPwd"></td>
+         </tr>
+         <tr class="info-tr1">
+            <th class="three">새 비밀번호</th>
+            <td><input type="password" id ="pwd1" class="infoupdate" name="newPwd"></td>
+         </tr>
+         <tr class="info-tr1">
+            <th class="three">비밀번호 재입력</th>
+            <td><input type="password" id ="pwd2" class="infoupdate" name="newPwd"></td>
+         </tr>
+         <tr class="info-tr1">
+         	<td>
+	         	<div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
+			 	<div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지않습니다.</div>
+         	</td>
+         </tr>
+      </table>
 
+      <hr>
+      <div class="rights-btn">
+      <input type="submit" class="custom-btn btn-10 rights" value="전송" onclick="a()">
+      <button class="dialogbtn custom-btn btn-10" type="button"
+         onclick="dialogClose('pwdmodal');">닫기</button>
+        </div>
+   </form>
+   </dialog>
+	<script>
+		$(function(){
+			$("#alert-success").hide();
+			$("#alert-danger").hide();
+			$("input").keyup(function(){
+				var pwd1 = $("#pwd1").val();
+				var pwd2 = $("#pwd2").val();
+				if(pwd1 != "" || pwd2 != ""){
+					if(pwd1 == pwd2){
+						$("#alert-success").show();
+						$("#alert-danger").hide();
+						$("#submit").removeAttr("disabled");
+					} else {
+						$("#alert-success").hide();
+						$("#alert-danger").show();
+						$("#submit").attr("disabled","disabled");
+					}
+				}
+			})
+		})
+		function a() {
+			alert("비밀번호가 변경되었습니다.");
+		}
+	</script>
    <!------ tab2 ------>
    <div class="modal-nav" id="tab-2" style="display: none;">
       <table class="main-table table2">
@@ -640,7 +724,7 @@ height: 600px;
       function dialogClose2(){
            dialog.close();
       }
-       
+      
        //수정 dialog2 - 경력
       const updatedialog = document.querySelector(".dialog2");
       $(document).on("click", ".table2 tbody tr", function () {
