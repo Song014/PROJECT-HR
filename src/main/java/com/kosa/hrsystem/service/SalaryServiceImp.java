@@ -21,7 +21,7 @@ public class SalaryServiceImp implements SalaryService {
         request.setAttribute("list",list);
 
         ActionForward forward = new ActionForward();
-        forward.setPath("/views/admin/salary/salaryView.jsp");
+        forward.setPath("/WEB-INF/views/admin/salary/salaryView.jsp");
         return forward;
     }
 }

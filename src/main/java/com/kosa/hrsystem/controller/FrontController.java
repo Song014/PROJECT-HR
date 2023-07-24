@@ -54,7 +54,7 @@ public class FrontController extends HttpServlet {
             //UI 제공 (서비스 객체가 필요없다)
             forward = new ActionForward(); // 서비스가 필요없으니 ActionForward객체를 직접 생성해서 사용
             forward.setRedirect(false);
-            forward.setPath("/views/user/login.jsp");
+            forward.setPath("/WEB-INF/views/user/login.jsp");
 
         } else if (urlcommand.equals("/loginok.do")) {
             //UI 제공 + 서비스 필요
@@ -80,14 +80,14 @@ public class FrontController extends HttpServlet {
 //            }
         } else if (urlcommand.equals("/searchId.do")) {
             forward = new ActionForward();
-            forward.setPath("/views/user/searchId.jsp");
+            forward.setPath("/WEB-INF/views/user/searchId.jsp");
         } else if (urlcommand.equals("/searchIdok.do")) {
             forward = empService.searchId(request, response);
         } else if (urlcommand.equals("/searchPwd.do")) {
             forward = empService.searchPwd(request, response);
         } else if (urlcommand.equals("/resetPwd.do")) {
             forward = new ActionForward();
-            forward.setPath("/views/user/resetPwd.jsp");
+            forward.setPath("/WEB-INF/views/user/resetPwd.jsp");
         } else if (urlcommand.equals("/updatePwdok.do")) {
             forward = empService.updatePwd(request, response);
         }

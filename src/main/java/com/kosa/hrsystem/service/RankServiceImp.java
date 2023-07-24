@@ -19,7 +19,7 @@ public class RankServiceImp implements CodeTableService {
 			request.setAttribute("list", list);
 			ActionForward forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("/views/admin/rank/rankView.jsp");
+			forward.setPath("/WEB-INF/views/admin/rank/rankView.jsp");
 			return forward;
 		} catch (Exception e) {
 			throw new RuntimeException(e);

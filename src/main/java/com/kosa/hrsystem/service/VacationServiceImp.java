@@ -36,7 +36,7 @@ public class VacationServiceImp implements VacationService {
 			
 			ActionForward forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("/views/admin/vacation/vacationView.jsp");
+			forward.setPath("/WEB-INF/views/admin/vacation/vacationView.jsp");
 			return forward;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -131,7 +131,7 @@ public class VacationServiceImp implements VacationService {
 			request.setAttribute("list", list);
 			ActionForward forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("/views/admin/vacationType/vacationTypeView.jsp");
+			forward.setPath("/WEB-INF/views/admin/vacationType/vacationTypeView.jsp");
 			return forward;
 		} catch (Exception e) {
 			throw new RuntimeException(e);

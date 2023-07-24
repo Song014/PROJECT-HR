@@ -29,7 +29,7 @@ public class RequestHistoryServiceImp implements RequestHistoryService {
             request.setAttribute("list", list);
             ActionForward forward = new ActionForward();
             forward.setRedirect(false);
-            forward.setPath("/views/admin/requestHistory/requestHistoryView.jsp");
+            forward.setPath("/WEB-INF/views/admin/requestHistory/requestHistoryView.jsp");
             return forward;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -100,7 +100,7 @@ public class RequestHistoryServiceImp implements RequestHistoryService {
         request.setAttribute("list" ,list);
 
         ActionForward forward = new ActionForward();
-        forward.setPath("/views/user/requestHistoryView.jsp");
+        forward.setPath("/WEB-INF/views/user/requestHistoryView.jsp");
         return forward;
     }
 

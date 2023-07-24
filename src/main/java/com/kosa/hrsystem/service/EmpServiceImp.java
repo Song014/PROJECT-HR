@@ -61,7 +61,7 @@ public class EmpServiceImp implements EmpService {
         }
         ActionForward forward = new ActionForward();
         forward.setRedirect(false);
-        forward.setPath("/views/admin/employee/employeeView.jsp");
+        forward.setPath("/WEB-INF/views/admin/employee/employeeView.jsp");
         return forward;
     }
 

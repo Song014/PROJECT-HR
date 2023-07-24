@@ -20,7 +20,7 @@ public class DeptServiceImp implements CodeTableService {
 			request.setAttribute("list", list);
 			ActionForward forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("/views/admin/duty/dutyView.jsp");
+			forward.setPath("/WEB-INF/views/admin/duty/dutyView.jsp");
 			return forward;
 		} catch (Exception e) {
 			throw new RuntimeException();

@@ -40,7 +40,7 @@ public class WorkRecordServiceImp implements WorkRecordService {
 	    }
 	    ActionForward forward = new ActionForward();
 	    forward.setRedirect(false);
-	    forward.setPath("/views/user/workRecord/workRecordView.jsp");
+	    forward.setPath("/WEB-INF/views/user/workRecord/workRecordView.jsp");
 	    return forward;
 	}
 

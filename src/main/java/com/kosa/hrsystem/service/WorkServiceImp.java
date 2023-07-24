@@ -32,7 +32,7 @@ public class WorkServiceImp implements WorkService {
         }
 
         ActionForward forward = new ActionForward();
-        forward.setPath("/views/admin/manage/workView.jsp");
+        forward.setPath("/WEB-INF/views/admin/manage/workView.jsp");
         return forward;
     }
 

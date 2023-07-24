@@ -47,7 +47,7 @@ public class UserServiceImp implements UserService {
 		
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
-		forward.setPath("/views/user/myPage.jsp");
+		forward.setPath("/WEB-INF/views/user/myPage.jsp");
 		return forward;
 	}
 

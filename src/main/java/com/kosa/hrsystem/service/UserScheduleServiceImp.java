@@ -52,7 +52,7 @@ public class UserScheduleServiceImp implements UserScheduleService{
 		
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
-		forward.setPath("/views/user/userScheduleView.jsp");
+		forward.setPath("/WEB-INF/views/user/userScheduleView.jsp");
 		return forward;
 	}
 	

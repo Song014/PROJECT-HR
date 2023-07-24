@@ -28,7 +28,7 @@ public class DashBoardServiceImp implements DashBoardService {
 
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
-		forward.setPath("/views/user/dashboard.jsp");
+		forward.setPath("/WEB-INF/views/user/dashboard.jsp");
 		return forward;
 	}
 }

@@ -37,7 +37,7 @@ public class CommuteRecordServiceImp implements CommuteRecordService {
 
 			ActionForward forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("/views/admin/attendance/attendanceView.jsp");
+			forward.setPath("/WEB-INF/views/admin/attendance/attendanceView.jsp");
 			return forward;
 		} catch (Exception e) {
 			throw new RuntimeException(e);

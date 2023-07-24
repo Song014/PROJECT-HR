@@ -96,7 +96,7 @@ public class WorkScheduleServiceImp implements WorkScheduleService {
 
 			ActionForward forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("/views/admin/workSchedule/workScheduleView.jsp");
+			forward.setPath("/WEB-INF/views/admin/workSchedule/workScheduleView.jsp");
 			return forward;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -196,7 +196,7 @@ public class WorkScheduleServiceImp implements WorkScheduleService {
 
 			ActionForward forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("/views/admin/manage/workScheduleView.jsp");
+			forward.setPath("/WEB-INF/views/admin/manage/workScheduleView.jsp");
 			return forward;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
