@@ -14,16 +14,32 @@
 		ORDER BY go_work DESC
 			FETCH FIRST 1 ROW ONLY
 	</select>
-    <insert id="insertAttendance" parameterType="com.kosa.hrsystem.dto.AttendanceDTO">
-		INSERT INTO ATTENDANCE(ATT_NUM,EMP_NUM,ATT_STATUS,GO_WORK) VALUES (ATTSEQ.NEXTVAL,#{emp_num},#{att_status},SYSDATE)
-	</insert>
+	<insert id="insertAttendance" parameterType="com.kosa.hrsystem.dto.AttendanceDTO">
+		INSERT INTO ATTENDANCE(ATT_NUM, EMP_NUM, ATT_STATUS, GO_WORK)
+		SELECT ATTSEQ.NEXTVAL, #{emp_num}, #{att_status}, SYSDATE
+		FROM DUAL
+		WHERE NOT EXISTS (
+			SELECT 1
+			FROM ATTENDANCE
+			WHERE EMP_NUM = #{emp_num}
+			  AND TRUNC(GO_WORK) = TRUNC(SYSDATE)
+		)
 
+	</insert>
+	<!--INSERT INTO ATTENDANCE(ATT_NUM, EMP_NUM, ATT_STATUS, GO_WORK)
+	VALUES (ATTSEQ.NEXTVAL, #{emp_num}, #{att_status}, SYSDATE)-->
 	<update id="updateAttendance" parameterType="com.kosa.hrsystem.dto.AttendanceDTO">
 		UPDATE ATTENDANCE
-		SET ATT_STATUS=0, LEAVE_WORK=SYSDATE
-		WHERE EMP_NUM=#{emp_num}
-		  AND ATT_NUM=(SELECT ATT_NUM FROM ATTENDANCE WHERE EMP_NUM=#{emp_num} ORDER BY GO_WORK DESC FETCH FIRST 1 ROW ONLY)
+		SET ATT_STATUS = #{att_status},
+			LEAVE_WORK = SYSDATE
+		WHERE EMP_NUM = #{emp_num}
+		  AND TRUNC(GO_WORK) = TRUNC(SYSDATE)
+		  AND ATT_STATUS = '1'
 	</update>
+	<!--UPDATE ATTENDANCE
+	SET ATT_STATUS=0, LEAVE_WORK=SYSDATE
+	WHERE EMP_NUM=#{emp_num}
+	AND ATT_NUM=(SELECT ATT_NUM FROM ATTENDANCE WHERE EMP_NUM=#{emp_num} ORDER BY GO_WORK DESC FETCH FIRST 1 ROW ONLY)-->
 	<!-- 스케줄 출퇴근 조회 -->
 	<select id="selectAtt" parameterType="Integer" resultType="com.kosa.hrsystem.vo.UserScheduleVO">
 	SELECT 

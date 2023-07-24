@@ -28,27 +28,35 @@ public class AttendanceServiceImp implements AttendanceService {
         JSONObject json = new JSONObject();
         try {
             AttendanceDAO dao = new AttendanceDAO();
-            if(attState==1){
+            String status = "";
+            String msg = "";
+            if (attState == 1) {
                 // 버튼 클릭시 근태 시작시간 추가
-                if(dao.insertAttend(attDto)>0){
-//                    System.out.println("insert");
+                if (dao.insertAttend(attDto) > 0) {
+                    status = "true";
+                    msg = "출근하셧습니다.";
                 } else {
-//                    System.out.println("not in");
+                    status = "false";
+                    msg = "오늘은 이미 출근하셧습니다. 관리자에게 문의해주세요!";
                 }
 
             } else {
                 // 버튼 클릭시 근태 종료시간 업데이트로 추가
-                if(dao.updateAttend(attDto)>0){
-//                    System.out.println("update");
+                if (dao.updateAttend(attDto) > 0) {
+                    status = "true";
+                    msg = "퇴근하셧습니다.";
                 } else {
-//                    System.out.println("not up");
+                    status = "false";
+                    msg = "오늘은 이미 출근하셧습니다. 관리자에게 문의해주세요!";
                 }
             }
 
-            json.put("status","true");
-        } catch (Exception e){
-            json.put("status","false");
-            json.put("error",e.getMessage());
+            json.put("status", status);
+            json.put("msg", msg);
+        } catch (Exception e) {
+            json.put("status", "false");
+            json.put("msg", "관리자에게 문의해주세요");
+            json.put("error", e.getMessage());
             e.printStackTrace();
         }
 
@@ -72,10 +80,10 @@ public class AttendanceServiceImp implements AttendanceService {
         AttendanceDTO attDTO = dao.checkedAtt(dto.getEmp_num());
 
         System.out.println(attDTO);
-        if(attDTO != null && attDTO.getAtt_status() == 1){ // 출근중
+        if (attDTO != null && attDTO.getAtt_status() == 1) { // 출근중
             flag = true;
-            session.setAttribute("attStatus",attDTO.getAtt_status());
-        } else if(attDTO == null || attDTO.getAtt_status() == 0){ // 퇴근중
+            session.setAttribute("attStatus", attDTO.getAtt_status());
+        } else if (attDTO == null || attDTO.getAtt_status() == 0) { // 퇴근중
             flag = false;
             session.removeAttribute("attStatus");
         }

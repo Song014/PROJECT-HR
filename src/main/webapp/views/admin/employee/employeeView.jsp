@@ -585,42 +585,62 @@ div.plusbtn{
 	<script type="text/javascript">
     updateRowsPerPage(18);
 
-    $("#sendEmail").click(function () {
-		name="emp-email"
-		if($.trim($("#keyEmp").val())==""){
-			alert("아이디를 입력해주세요")
+	/* 사원 추가하기 */
+	$("#sendEmp").click(function () {
+		if ($.trim($("#keyEmp").val()) == "") {
+			alert("사원번호를 입력해주세요")
 			return false;
 		}
-		if($.trim($("input[name='emp-name']").val())==""){
+		if ($.trim($("input[name='emp-name']").val()) == "") {
+			alert("이름을 입력해주세요")
+			return false;
+		}
+		if ($.trim($("input[name='emp-email']").val()) == "") {
 			alert("이메일을 입력해주세요")
 			return false;
 		}
+		$frm = $("#frm").serialize();
+		$.ajax({
+			url: "/empok.do",
+			type: "post",
+			data: $frm,
+			dataType: "json",
+			success: sucFuncJson,
+			error: errFunc
+		});
+		function sucFuncJson(data) {
+			console.log(data);
+			if (data.status == "false") {
+				alert("이미 등록된 이메일입니다.");
+			} else {
+				alert("이메일로 아이디와 비밀번호를 전송하였습니다.");
+				$('.modal_nav').hide()
+				$('#tab-3').show()
+				$('input[type="submit"]').attr('form', $('#tab-3').children('form').attr("id"))
+			}
+		}
 
-        $frm = $("#frm").serialize();
-        $.ajax({
-            url: "/empok.do",
-            type: "post",
-            data: $frm,
-            dataType: "json",
-            success: sucFuncJson,
-            error: errFunc
-        });
-
-        function sucFuncJson(data) {
-            console.log(data);
-            if (data.status == "false") {
-                alert("이미 등록된 이메일입니다.");
-            } else {
-                alert("이메일로 아이디와 비밀번호를 전송하였습니다.");
-                window.location.href = "/emp.do?cate=nav-emp"
-            }
-        }
-
-        function errFunc(e) {
+		function errFunc(e) {
             alert("실패" + e.status)
         }
     })
 
+	function resetPwd(email) {
+		const pwd = prompt("변경하실 비밀번호를 입력해주세요")
+		$.ajax({
+			url: "/updatePwdok.do",
+			type: "post",
+			data: {
+				"email": email,
+				"pwd": pwd
+			},
+			dataType: "json",
+			success: sucFuncJson,
+		});
+		function sucFuncJson(){
+			alert("변경되었습니다.")
+		}
+	}
 
     const dialog = document.querySelector("dialog");
     $(document).on("click", ".table tbody tr", function () {
@@ -725,13 +745,15 @@ div.plusbtn{
             <td><textarea class="emptext" name="emp-reason" id="emptext" ></textarea>
          </tr>
          <tr>
-										<th>근로정보</th>
-										<td><select class="profiletype" name="emp-workNum">
-												<c:forEach var="list" items="${optWork}">
-													<option value="${list.work_num}">${list.work_name}</option>
-												</c:forEach>
-										</select></td>
-									</tr>
+			<th>근로정보</th>
+			<td><select class="profiletype" name="emp-workNum">
+					<c:forEach var="list" items="${optWork}">
+						<option value="${list.work_num}">${list.work_name}</option>
+					</c:forEach>
+			</select></td>
+			<th class="right" >비밀번호 초기화</th>
+			<td><input type="button" onclick="resetPwd('` + $email + `')" value="초기화" />
+		</tr>
          <tr>
             <th class="two">메모</th>
             <td colspan='3'><textarea class="diaempmemo" name="emp-remarks" value="` + $remarks + `"></textarea>
@@ -805,7 +827,7 @@ div.plusbtn{
                     <td>` + value.work_name + `</td>
                     <td>` + hireDate + `</td>
                     <td>` + value.annual_num + `</td>
-                    <td>` + value.remarks + `</td>
+                    <td>` + (value.remarks != null ? value.remarks : '') + `</td>
                 </tr>
                 `;
 
