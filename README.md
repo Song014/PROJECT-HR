@@ -21,3 +21,11 @@
 
 # AWS 
 [PROJECT-HR WEB 바로가기](ec2-3-36-128-85.ap-northeast-2.compute.amazonaws.com:8080)
+
+```
+관리자 아이디
+q1@qwe.qwe
+
+비밀번호
+qwer123 
+```
